@@ -11,6 +11,6 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/{id}', 'PromoController@show');
+
+Route::get('promo/{id}', 'PromoController@show');

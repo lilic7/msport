@@ -12,7 +12,7 @@ class CategorySeeder extends Seeder
      */
     public function run()
     {
-        DB::table('categories')->truncate();
+        DB::table('categories')->delete();
 
         DB::table('categories')->insert([
             ['title' => 'Promo', 'path'  => 'promo', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],

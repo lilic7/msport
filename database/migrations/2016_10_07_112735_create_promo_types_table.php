@@ -14,7 +14,7 @@ class CreatePromoTypesTable extends Migration
     public function up()
     {
         Schema::create('promo_types', function (Blueprint $table) {
-            $table->increments('id');
+            $table->increments('id')->unsigned();
             $table->string('type');
             $table->timestamps();
         });

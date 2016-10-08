@@ -15,12 +15,15 @@ class CreateGenericsTable extends Migration
     {
         Schema::create('generics', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('title')->unique();
+            $table->string('title');
             $table->integer('length');
-            $table->string('path');
+            $table->integer('frames');
             $table->integer('category_id')->unsigned();
+            $table->string('path');
             $table->boolean('onair')->default(1);
             $table->timestamps();
+
+            $table->foreign('category_id')->references('id')->on('categories');
         });
     }
 

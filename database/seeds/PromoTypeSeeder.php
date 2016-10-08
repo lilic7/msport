@@ -12,14 +12,12 @@ class PromoTypeSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('promo_types')->truncate();
+        DB::table('promo_types')->delete();
 
         DB::table('promo_types')->insert([
             ['type' => 'general', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
             ['type' => 'timed', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
             ['type' => 'social', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
         ]);
-
-
     }
 }
