@@ -14,7 +14,9 @@ class DatabaseSeeder extends Seeder
         // $this->call(UsersTableSeeder::class);
         $this->call(CategorySeeder::class);
         $this->call(PromoTypeSeeder::class);
-        $this->call(GenericSeeder::class);
+        $this->call(VideoSeeder::class);
+        $this->call(PlayblockTypesSeeder::class);
         $this->call(PromoSeeder::class);
+
     }
 }

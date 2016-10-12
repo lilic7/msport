@@ -3,16 +3,17 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Promo extends Model
 {
-    protected $fillable = ['title', 'length', 'frames', 'promo_type_id', 'path', 'category_id', 'onair', 'first_air', 'final_air'];
+    protected $fillable = ['video_id', 'promo_type_id', 'path', 'first_air', 'final_air'];
 
     public function promoType(){
         return $this->belongsTo('App\PromoType');
     }
 
-    public function category(){
-        return $this->belongsTo('App\Category');
+    public function video(){
+        return $this->belongsTo('App\Video');
     }
 }

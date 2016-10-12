@@ -9,10 +9,10 @@
     </head>
     <body>
         <pre>
-            {{$promo->title}}
-            {{$promo->length.'.'.$promo->frames}}
-            {{$promo->category->title}}
-            {{$promo->path}}
+            {{$promo->video->title}}
+            {{$promo->video->length.'.'.$promo->video->frames}}
+            {{$promo->video->category->title}}
+            {{$promo->video->path}}
             {{$promo->promoType->type}}
         </pre>
     </body>

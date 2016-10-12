@@ -11,6 +11,11 @@
 |
 */
 
+Route::get('/', function (){
+    return "Status OK";
+});
+
 Route::get('/{id}', 'PromoController@show');
+
 
 Route::get('promo/{id}', 'PromoController@show');

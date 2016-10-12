@@ -10,6 +10,6 @@ use App\Http\Requests;
 class PromoController extends Controller
 {
     public function show($id){
-        return view('welcome', ['promo' => Promo::findOrFail($id)]);
+        return view('welcome', ['promo' => Promo::where('video_id', $id)->first()]);
     }
 }

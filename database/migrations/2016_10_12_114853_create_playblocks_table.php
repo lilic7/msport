@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateGenericsTable extends Migration
+class CreatePlayblocksTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,14 @@ class CreateGenericsTable extends Migration
      */
     public function up()
     {
-        Schema::create('generics', function (Blueprint $table) {
-            $table->increments('id');
+        Schema::create('playblocks', function (Blueprint $table) {
+            $table->increments('id')->unsigned();
             $table->string('title');
             $table->integer('length');
-            $table->integer('frames');
-            $table->integer('category_id')->unsigned();
-            $table->string('path');
-            $table->boolean('onair')->default(1);
+            $table->integer('playblock_type_id')->unsigned();
             $table->timestamps();
 
-            $table->foreign('category_id')->references('id')->on('categories');
+            $table->foreign('playblock_type_id')->references('id')->on('playblock_types');
         });
     }
 
@@ -34,6 +31,6 @@ class CreateGenericsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('generics');
+        Schema::dropIfExists('playblocks');
     }
 }
