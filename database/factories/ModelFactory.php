@@ -21,3 +21,20 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'remember_token' => str_random(10),
     ];
 });
+
+
+$factory->define(App\Category::class, function (Faker\Generator $faker) {
+    return [
+        'title' => $faker->word,
+    ];
+});
+
+$factory->define(App\Video::class, function (Faker\Generator $faker) {
+    return [
+        'title' => $faker->word,
+        'length' => $faker->numberBetween(5, 14400),
+        'frames' => $faker->numberBetween(0, 99),
+        'path' => $faker->url,
+        'onair' => $faker->boolean()
+    ];
+});

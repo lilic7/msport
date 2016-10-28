@@ -15,8 +15,8 @@ class CategorySeeder extends Seeder
         DB::table('categories')->delete();
 
         DB::table('categories')->insert([
-            ['title' => 'Promo', 'path'  => 'promo', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['title' => 'Generic', 'path'  => 'generice', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['title' => 'Promo'],
+            ['title' => 'Generic'],
         ]);
     }
 }

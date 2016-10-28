@@ -21,7 +21,14 @@ class Video extends Model
         return $this->belongsToMany('App\Playblock');
     }
 
-    public function getLengthAttribute($length){
-        return Carbon::create(0,0,0,0,0,$length)->format('i:s');
+//    public function getLengthAttribute($length){
+//        return $length;
+//        //return Carbon::parse($length)->format('H:i:s');
+//    }
+
+
+    public function scopeGeneric($query){
+        $category = Category::where('title', 'Generic')->first();
+        return $query->where('category_id', $category->id);
     }
 }
