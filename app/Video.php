@@ -3,7 +3,6 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Carbon\Carbon;
 
 class Video extends Model
 {
@@ -21,14 +20,19 @@ class Video extends Model
         return $this->belongsToMany('App\Playblock');
     }
 
-//    public function getLengthAttribute($length){
-//        return $length;
-//        //return Carbon::parse($length)->format('H:i:s');
-//    }
+    public function getLengthAttribute($length){
+        $format = ($length >= 3600 ? "H:" : "") . "i:s";
+        return gmdate($format, $length);
+    }
 
 
     public function scopeGeneric($query){
         $category = Category::where('title', 'Generic')->first();
         return $query->where('category_id', $category->id);
+    }
+
+    public function duration(){
+        $format = ($this->attributes['length'] >= 3600 ? "H:" : "") . "i:s";
+        return gmdate($format, $this->attributes['length']) . "." . $this->attributes['frames'];
     }
 }

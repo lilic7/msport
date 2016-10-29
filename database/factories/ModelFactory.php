@@ -32,9 +32,19 @@ $factory->define(App\Category::class, function (Faker\Generator $faker) {
 $factory->define(App\Video::class, function (Faker\Generator $faker) {
     return [
         'title' => $faker->word,
-        'length' => $faker->numberBetween(5, 14400),
+        'length' => $faker->numberBetween(5, 3600),
         'frames' => $faker->numberBetween(0, 99),
         'path' => $faker->url,
         'onair' => $faker->boolean()
+    ];
+});
+
+$factory->define(App\Promo::class, function (\Faker\Generator $faker) {
+    return [];
+});
+
+$factory->define(App\PromoType::class, function (\Faker\Generator $faker) {
+    return [
+        'type' => 'general'
     ];
 });

@@ -7,7 +7,7 @@ use Carbon\Carbon;
 
 class Promo extends Model
 {
-    protected $fillable = ['video_id', 'promo_type_id', 'path', 'first_air', 'final_air'];
+    protected $fillable = ['video_id', 'promo_type_id', 'first_air', 'final_air'];
 
     public function promoType(){
         return $this->belongsTo(PromoType::class);

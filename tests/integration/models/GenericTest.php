@@ -23,6 +23,6 @@ class GenericTest extends TestCase
 
         $generic = Video::generic()->first();
 
-        $this->assertEquals('Generice', $generic->category());
+        $this->assertEquals('Generic', $generic->category->title);
     }
 }
