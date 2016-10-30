@@ -39,12 +39,18 @@ $factory->define(App\Video::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(App\Promo::class, function (\Faker\Generator $faker) {
+$factory->define(App\Promo::class, function () {
     return [];
 });
 
-$factory->define(App\PromoType::class, function (\Faker\Generator $faker) {
+$factory->define(App\PromoType::class, function () {
     return [
         'type' => 'general'
+    ];
+});
+
+$factory->define(App\PlayblockType::class, function (\Faker\Generator $faker) {
+    return [
+        'title' => 'promos'
     ];
 });
