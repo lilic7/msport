@@ -16,7 +16,7 @@ class CreatePlayblocksTable extends Migration
         Schema::create('playblocks', function (Blueprint $table) {
             $table->increments('id')->unsigned();
             $table->string('title');
-            $table->integer('length');
+            $table->integer('length')->default(0);
             $table->integer('playblock_type_id')->unsigned();
             $table->timestamps();
 

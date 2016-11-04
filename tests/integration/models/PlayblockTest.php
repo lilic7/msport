@@ -32,7 +32,6 @@ class PlayblockTest extends TestCase{
             'category_id' => $genericCategory->id
         ]);
 
-        // insert 2 promo with promotype and video
         $promo1_video = factory(Video::class)->create([
             'title' => 'Moldova Sport General',
             'length' => 35,
@@ -43,30 +42,20 @@ class PlayblockTest extends TestCase{
 
         $promo1 = factory(Promo::class)->create([
             'video_id' => $promo1_video->id,
-            'promo_ype_id' => $promoType->id
-        ]);
-
-        $promo2_video = factory(Video::class)->create([
-            'title' => 'Moldova Sport Tenis',
-            'length' => 40,
-            'frames' => 0,
-            'category_id' => $promoCategory->id,
-            'onair' => true
-        ]);
-
-        $promo2 = factory(Promo::class)->create([
-            'video_id' => $promo2_video->id,
-            'promo_ype_id' => $promoType->id
+            'promo_type_id' => $promoType->id
         ]);
 
         $playblockType = factory(PlayblockType::class)->create();
 
-        // add promo to block
 
-        Playblock::addVideo($promo1);
+        // create a promo block
+        $playblock = factory(Playblock::class)->create([
+            'playblock_type_id' => $playblockType->id
+        ]);
 
-        // assert the playblok contains Promo
+        $playblock->videos()->save($promo1_video);
 
+        $this->assertCount(1, $playblock->videos()->get());
     }
 
     /** @test */
@@ -99,7 +88,7 @@ class PlayblockTest extends TestCase{
 
         $promo1 = factory(Promo::class)->create([
             'video_id' => $promo1_video->id,
-            'promo_ype_id' => $promoType->id
+            'promo_type_id' => $promoType->id
         ]);
 
         $promo2_video = factory(Video::class)->create([
@@ -112,7 +101,7 @@ class PlayblockTest extends TestCase{
 
         $promo2 = factory(Promo::class)->create([
             'video_id' => $promo2_video->id,
-            'promo_ype_id' => $promoType->id
+            'promo_type_id' => $promoType->id
         ]);
 
         $playblockType = factory(PlayblockType::class)->create();

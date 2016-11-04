@@ -9,15 +9,15 @@ class Video extends Model
     protected $fillable = ['title', 'length', 'frames', 'category_id', 'path', 'onair'];
     
     public function category(){
-        return $this->belongsTo('App\Category');
+        return $this->belongsTo(Category::class);
     }
 
     public function promo(){
-        return $this->hasOne('App\Promo');
+        return $this->hasOne(Promo::class);
     }
 
-    public function playBlocks(){
-        return $this->belongsToMany('App\Playblock');
+    public function playblocks(){
+        return $this->belongsToMany(Playblock::class);
     }
 
     public function getLengthAttribute($length){
