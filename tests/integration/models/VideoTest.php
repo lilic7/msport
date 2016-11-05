@@ -25,7 +25,7 @@ class VideoTest extends TestCase
     }
 
     /** @test */
-    function video_length_greater_than_an_hour_converts_to_time_format(){
+    function video_length_greater_than_an_hour_correctly_converts_to_time_format(){
         $video = factory(Video::class)->create([
             'title' => 'Bila Promo',
             'length' => 3640,

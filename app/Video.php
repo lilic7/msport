@@ -25,7 +25,6 @@ class Video extends Model
         return gmdate($format, $length);
     }
 
-
     public function scopeGeneric($query){
         $category = Category::where('title', 'Generic')->first();
         return $query->where('category_id', $category->id);

@@ -57,6 +57,7 @@ $factory->define(App\PlayblockType::class, function () {
 
 $factory->define(App\Playblock::class, function () {
     return [
-        'title' => 'promos'
+        'title' => 'promos',
+        'length' => 0
     ];
 });
