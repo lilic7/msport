@@ -39,34 +39,34 @@ class PlayblockTest extends TestCase{
     }
 
     /** @test */
-    function playblock_can_delete_video(){
-        $this->init_world();
-        $this->create_promo1();
-        $this->initPlayblock();
-        $this->playblock->addVideo($this->promo1_video);
-
-        $this->playblock->removeVideo($this->promo1_video);
-        $this->assertEquals(0, $this->playblock->videos()->get());
-    }
-
-    /** @test */
-//    function playblock_of_type_promos_add_more_videos(){
-//
+//    function playblock_can_delete_video(){
 //        $this->init_world();
 //        $this->create_promo1();
-//        $this->create_promo2();
 //        $this->initPlayblock();
-//
 //        $this->playblock->addVideo($this->promo1_video);
-//        $this->playblock->addVideo($this->promo2_video);
-//        $playblockVideos = $this->playblock->videos()->get();
-////        foreach($playblockVideos as $video){
-////            echo $video->title."\n";
-////        }
-//        $this->assertCount(4, $this->playblock->videos()->get());
-//        $this->assertEquals('Generic Promo', $playblockVideos[0]->title);
-//        $this->assertEquals('Generic Promo', $playblockVideos[3]->title);
+//
+//        $this->playblock->removeVideo($this->promo1_video);
+//        $this->assertEquals(0, $this->playblock->videos()->get());
 //    }
+
+    /** @test */
+    function playblock_of_type_promos_add_more_videos(){
+
+        $this->init_world();
+        $this->create_promo1();
+        $this->create_promo2();
+        $this->initPlayblock();
+
+        $this->playblock->addVideo($this->promo1_video);
+        $this->playblock->addVideo($this->promo2_video);
+        $playblockVideos = $this->playblock->fresh()->videos()->get();
+        foreach($playblockVideos as $video){
+            echo $video->title."\n";
+        }
+        $this->assertCount(4, $this->playblock->videos()->get());
+        $this->assertEquals('Generic Promo', $playblockVideos[0]->title);
+        $this->assertEquals('Generic Promo', $playblockVideos[3]->title);
+    }
 
     /** @test */
     function  playblock_of_type_promos_must_start_with_generic(){

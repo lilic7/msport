@@ -34,7 +34,7 @@ class Playblock extends Model
             $this->videos()->save($generic_promo);
         } else {
             $toRemove = $playblock_content->pop();
-            $this->videos()->destroy($toRemove->id);
+            $this->videos()->detach($toRemove->pivot->id);
             $this->videos()->save($video);
             $this->videos()->save($generic_promo);
         }
