@@ -16,36 +16,13 @@ class Playblock extends Model
         return $this->belongsTo(PlayblockType::class);
     }
 
-    function scopeType($query, $type){
-
-        $playblock_type = PlayblockType::where('title', $type)->first();
-        
-        return $query->where('playblock_type_id', $playblock_type->id);
+    public function getLengthAttribute(){
+        return 75;
     }
-    
-    function addVideo($video){
-        $generic_promo = Video::where('title', 'Generic Promo')->first();
 
-        $playblock_content = $this->videos()->get();
-
-        if ($playblock_content->count() == 0){
-            $this->videos()->save($generic_promo);
-            $this->videos()->save($video);
-            $this->videos()->save($generic_promo);
-        } else {
-            $toRemove = $playblock_content->pop();
-            $this->videos()->detach($toRemove->pivot->id);
-            $this->videos()->save($video);
-            $this->videos()->save($generic_promo);
+    public function addVideo($videos){
+        foreach ($videos as $video){
+            $this->videos()->attach($video);
         }
-
     }
-
-    function removeVideo($video){
-        $this->videos()->get();
-    }
-    
-    
-    
-    
 }
