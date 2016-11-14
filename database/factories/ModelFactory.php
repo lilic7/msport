@@ -32,7 +32,7 @@ $factory->define(App\Category::class, function (Faker\Generator $faker) {
 $factory->define(App\Video::class, function (Faker\Generator $faker) {
     return [
         'title' => $faker->word,
-        'length' => $faker->numberBetween(5, 3600),
+        'duration' => $faker->numberBetween(5, 120),
         'frames' => $faker->numberBetween(0, 99),
         'path' => $faker->url,
         'onair' => $faker->boolean()
@@ -58,6 +58,7 @@ $factory->define(App\PlayblockType::class, function () {
 $factory->define(App\Playblock::class, function () {
     return [
         'title' => 'promo',
-        'length' => 0
+        'duration' => 0,
+        'frames' => 0
     ];
 });

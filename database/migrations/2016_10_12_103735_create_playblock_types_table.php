@@ -16,8 +16,6 @@ class CreatePlayblockTypesTable extends Migration
         Schema::create('playblock_types', function (Blueprint $table) {
             $table->increments('id')->unsigned();
             $table->string('title')->unique()->index();
-            $table->enum('accepted_video_categories_id')->nullable();
-            $table->text('block_structure')->nullable();
             $table->timestamps();
         });
     }
