@@ -26,14 +26,6 @@ class Playblock extends Model
 
         foreach ($videos as $video){
 
-            // if maxDuration != null
-            // adauga video in block pana ajunge aproape de durata maxima, dar o intrece
-
-            // if maxDuration == null
-            // adauga video din categorie
-
-
-
             $this->videos()->attach($video);
 
             $this->calculate_total_duration($video, $maxDuration);
@@ -44,26 +36,27 @@ class Playblock extends Model
 
     }
 
+
     private function calculate_total_duration($video, $maxDuration){
+        $oldDuration = $this->duration;
+        $oldFrames = $this->frames;
 
-        $this->totalDuration = $this->duration + $video->duration + (int) $this->calculate_frames($video);
+        $newDuration = $this->duration + $video->duration + (int) $this->calculate_frames($video);
 
+        if($maxDuration){
+            $this->totalDuration = $newDuration > $maxDuration ? $oldDuration : $newDuration;
+        } else {
+            $this->totalDuration = $newDuration;
+        }
     }
 
     private function calculate_frames($video){
-
         $this->totalFrames = $this->frames + $video->frames;
-
         $secconds_to_add = 0;
-
         if ( $this->totalFrames > 100 ) {
-
             $secconds_to_add = floor($this->totalFrames / 100);
-
             $this->totalFrames %= 100;
-
         }
-
         return $secconds_to_add;
     }
 
