@@ -88,22 +88,52 @@ class PlayblockTest extends TestCase
     }
 
     /** @test */
-//    function generate_a_playblock_of_maximum_duration(){
-//        $videos[] = factory(Video::class)->create(['category_id' => 2]);
-//        $videos[] = factory(Video::class)->create(['category_id' => 2]);
-//        $videos[] = factory(Video::class)->create(['category_id' => 2]);
-//        $videos[] = factory(Video::class)->create(['category_id' => 2]);
-//        $videos[] = factory(Video::class)->create(['category_id' => 2]);
-//        $videos[] = factory(Video::class)->create(['category_id' => 2]);
-//        $videos[] = factory(Video::class)->create(['category_id' => 2]);
-//        $videos[] = factory(Video::class)->create(['category_id' => 2]);
-//        $videos[] = factory(Video::class)->create(['category_id' => 2]);
-//
-//
-//        $playblock = factory(Playblock::class)->create(['playblock_type_id' => 1]);
-//
-//        $playblock->addVideos($videos, 120);
-//
-//        $this->assertLessThan(120, $playblock->duration);
-//    }
+    function generate_a_playblock_of_maximum_duration(){
+        $videos[] = factory(Video::class)->create(['category_id' => 2]);
+        $videos[] = factory(Video::class)->create(['category_id' => 2]);
+        $videos[] = factory(Video::class)->create(['category_id' => 2]);
+        $videos[] = factory(Video::class)->create(['category_id' => 2]);
+        $videos[] = factory(Video::class)->create(['category_id' => 2]);
+        $videos[] = factory(Video::class)->create(['category_id' => 2]);
+        $videos[] = factory(Video::class)->create(['category_id' => 2]);
+        $videos[] = factory(Video::class)->create(['category_id' => 2]);
+        $videos[] = factory(Video::class)->create(['category_id' => 2]);
+
+
+        $playblock = factory(Playblock::class)->create(['playblock_type_id' => 1]);
+
+        $playblock->addVideos($videos, 120);
+
+        $this->assertLessThanOrEqual(120, $playblock->duration);
+    }
+
+    /** @test */
+    function playblock_dont_change_frames_if_video_diration_exceeds_maximum_duration(){
+
+        $videos[] = factory(Video::class)->create([
+            'duration'      => 50,
+            'frames'        => 10,
+            'category_id'   => 1
+        ]);
+
+        $videos[] = factory(Video::class)->create([
+            'duration'      => 30,
+            'frames'        => 10,
+            'category_id'   => 1
+        ]);
+
+        $videos[] = factory(Video::class)->create([
+            'duration'      => 30,
+            'frames'        => 40,
+            'category_id'   => 1
+        ]);
+
+        $playblock = factory(Playblock::class)->create(['playblock_type_id' => 1]);
+
+        $playblock->addVideos($videos, 85);
+
+        $this->assertEquals(20, $playblock->frames); // 120 frames => 1 second and 20 frames
+        $this->assertEquals(80, $playblock->duration); // 40 seconds + 1 second from frames sum
+        $this->assertEquals("80.20", $playblock->totalDuration());
+    }
 }

@@ -9,6 +9,8 @@ class Playblock extends Model
     protected $fillable = ['title', 'duration', 'frames'];
     protected $totalFrames;
     protected $totalDuration;
+    protected $durationSum;
+    protected $framesSum;
     
     public function videos(){
         return $this->belongsToMany(Video::class)->withPivot('id');
@@ -41,10 +43,10 @@ class Playblock extends Model
         $oldDuration = $this->duration;
         $oldFrames = $this->frames;
 
-        $newDuration = $this->duration + $video->duration + (int) $this->calculate_frames($video);
+        $newDuration = $this->duration + $video->duration;
 
         if($maxDuration){
-            $this->totalDuration = $newDuration > $maxDuration ? $oldDuration : $newDuration;
+            $this->totalDuration = $newDuration > $maxDuration ? $oldDuration : $newDuration + (int) $this->calculate_frames($video);
         } else {
             $this->totalDuration = $newDuration;
         }
