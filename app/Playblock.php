@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 
 class Playblock extends Model
 {
@@ -24,19 +25,20 @@ class Playblock extends Model
         return $this->attributes['duration'] . "." . $this->attributes['frames'];
     }
 
-    public function addVideos($videos, $maxDuration = 0){
-
-        foreach ($videos as $video){
-
+    public function add(Collection $videos, $maxDuration = 0){
+        $videos->each(function($video){
             $this->videos()->attach($video);
-
-            $this->calculate_total_duration($video, $maxDuration);
-
-            $this->updateDuration();
-            $this->updateFrames();
-        }
-
+        });
     }
+
+    public function remove(Collection $videos){
+        $videos->each(function($video){
+            $this->videos()->detach($video);
+        });
+    }
+
+
+
 
 
     private function calculate_total_duration($video, $maxDuration){
