@@ -12,6 +12,8 @@ class Playblock extends Model
     protected $totalDuration;
     protected $durationSum;
     protected $framesSum;
+
+    protected $maxDuration;
     
     public function videos(){
         return $this->belongsToMany(Video::class)->withPivot('id');
@@ -26,14 +28,51 @@ class Playblock extends Model
     }
 
     public function add(Collection $videos, $maxDuration = 0){
-        $videos->each(function($video){
+
+        if ( $maxDuration ) {
+            $this->maxDuration = $maxDuration;
+        }
+
+        $videos->each(function(Video $video){
+
+            if ($this->maxDuration && ($this->duration + $video->duration > $this->maxDuration)){
+                return false;
+            }
+
             $this->videos()->attach($video);
+
+            $this->duration += $video->duration;
+
+            $this->frames += $video->frames;
+
+            if( $this->frames > 100){
+
+                $multiplier = (int) floor($this->frames / 100);
+
+                $this->frames -= 100 * $multiplier;
+
+                $this->duration += $multiplier;
+            }
+
         });
+
     }
 
     public function remove(Collection $videos){
-        $videos->each(function($video){
+
+        $videos->each(function(Video $video){
+
             $this->videos()->detach($video);
+
+            $this->duration -= $video->duration;
+
+            if ( $this->frames < $video->frames ){
+
+                $this->duration--;
+
+                $this->frames = $this->frames - $video->frames + 100;
+            }
+
         });
     }
 
