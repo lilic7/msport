@@ -8,10 +8,6 @@ use Illuminate\Support\Collection;
 class Playblock extends Model
 {
     protected $fillable = ['title', 'duration', 'frames'];
-    protected $totalFrames;
-    protected $totalDuration;
-    protected $durationSum;
-    protected $framesSum;
 
     protected $maxDuration;
     
@@ -26,7 +22,13 @@ class Playblock extends Model
     function totalDuration(){
         return $this->attributes['duration'] . "." . $this->attributes['frames'];
     }
+    
+    
 
+    /**
+     * @param Collection $videos
+     * @param int $maxDuration
+     */
     public function add(Collection $videos, $maxDuration = 0){
 
         if ( $maxDuration ) {
@@ -36,7 +38,7 @@ class Playblock extends Model
         $videos->each(function(Video $video){
 
             if ($this->maxDuration && ($this->duration + $video->duration > $this->maxDuration)){
-                return false;
+                return;
             }
 
             $this->videos()->attach($video);
@@ -53,11 +55,12 @@ class Playblock extends Model
 
                 $this->duration += $multiplier;
             }
-
         });
-
     }
 
+    /**
+     * @param Collection $videos
+     */
     public function remove(Collection $videos){
 
         $videos->each(function(Video $video){
@@ -74,40 +77,5 @@ class Playblock extends Model
             }
 
         });
-    }
-
-
-
-
-
-    private function calculate_total_duration($video, $maxDuration){
-        $oldDuration = $this->duration;
-        $oldFrames = $this->frames;
-
-        $newDuration = $this->duration + $video->duration;
-
-        if($maxDuration){
-            $this->totalDuration = $newDuration > $maxDuration ? $oldDuration : $newDuration + (int) $this->calculate_frames($video);
-        } else {
-            $this->totalDuration = $newDuration;
-        }
-    }
-
-    private function calculate_frames($video){
-        $this->totalFrames = $this->frames + $video->frames;
-        $secconds_to_add = 0;
-        if ( $this->totalFrames > 100 ) {
-            $secconds_to_add = floor($this->totalFrames / 100);
-            $this->totalFrames %= 100;
-        }
-        return $secconds_to_add;
-    }
-
-    private function updateDuration(){
-        $this->update(['duration' => $this->totalDuration]);
-    }
-
-    private function updateFrames(){
-        $this->update(['frames' => $this->totalFrames]);
     }
 }

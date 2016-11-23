@@ -25,7 +25,7 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 
 $factory->define(App\Category::class, function (Faker\Generator $faker) {
     return [
-        'title' => $faker->word,
+        'title' => $faker->word.$faker->numberBetween(10,1000),
     ];
 });
 

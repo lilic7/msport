@@ -26,6 +26,47 @@ class PlayblockTest extends TestCase
     }
 
     /** @test */
+    function add_playblock_videos_into_another_playblock(){
+
+        factory(Video::class)->create([
+            'duration'      => 105,
+            'frames'        => 70,
+            'category_id'   => 1
+        ]);
+        factory(Video::class)->create([
+            'duration'      => 80,
+            'frames'        => 70,
+            'category_id'   => 1
+        ]);
+        factory(Video::class)->create([
+            'duration'      => 50,
+            'frames'        => 10,
+            'category_id'   => 1
+        ]);
+
+        factory(Playblock::class)->create([
+            'playblock_type_id'     => 1,
+            'duration'              => 90,
+            'frames'                => 10
+        ]);
+
+        $videos = Video::whereIn('id', [2, 3])->get();
+
+        $playblock = factory(Playblock::class)->create(['playblock_type_id'=>1]);
+
+        $playblock_to_add = factory(Playblock::class)->create(['playblock_type_id'=>1]);
+
+        $playblock_to_add->add($videos);
+
+        $playblock->add(Video::where('id', 1)->get());
+
+        $playblock->add($playblock_to_add->videos()->get());
+
+        $this->assertCount(3, $playblock->videos);
+        $this->assertEquals(236, $playblock->duration);
+    }
+
+    /** @test */
     function only_videos_could_be_added_to_playblock(){
 
         factory(Category::class, 5)->create();
@@ -43,11 +84,11 @@ class PlayblockTest extends TestCase
     /** @test */
     function calculate_playblock_frames_according_to_sum_of_videos_frames(){
 
-        factory(App\Video::class)->create([
+        factory(Video::class)->create([
             'frames'        => 8,
             'category_id'   => 1
         ]);
-        factory(App\Video::class)->create([
+        factory(Video::class)->create([
             'frames'        => 80,
             'category_id'   => 1
         ]);
@@ -55,7 +96,7 @@ class PlayblockTest extends TestCase
 
         $videos = Video::all();
 
-        $playblock = factory(App\Playblock::class)->create(['playblock_type_id'=>1]);
+        $playblock = factory(Playblock::class)->create(['playblock_type_id'=>1]);
 
         $playblock->add($videos);
 
@@ -65,7 +106,7 @@ class PlayblockTest extends TestCase
     /** @test */
     function sum_of_frames_greater_than_100_is_correctly_transformed(){
 
-        factory(App\Video::class)->create([
+        factory(Video::class)->create([
             'frames'        => 28,
             'category_id'   => 1
         ]);
@@ -77,7 +118,7 @@ class PlayblockTest extends TestCase
 
         $videos = Video::all();
 
-        $playblock = factory(App\Playblock::class)->create(['playblock_type_id'=>1]);
+        $playblock = factory(Playblock::class)->create(['playblock_type_id'=>1]);
 
         $playblock->add($videos);
 
@@ -87,12 +128,12 @@ class PlayblockTest extends TestCase
     /** @test */
     function calculate_playblock_duration_according_to_sum_of_videos_durations(){
 
-        factory(App\Video::class)->create([
+        factory(Video::class)->create([
             'duration'      => 8,
             'frames'        => 0,
             'category_id'   => 1
         ]);
-        factory(App\Video::class)->create([
+        factory(Video::class)->create([
             'duration'      => 80,
             'frames'        => 0,
             'category_id'   => 1
@@ -101,7 +142,7 @@ class PlayblockTest extends TestCase
 
         $videos = Video::all();
 
-        $playblock = factory(App\Playblock::class)->create(['playblock_type_id'=>1]);
+        $playblock = factory(Playblock::class)->create(['playblock_type_id'=>1]);
 
         $playblock->add($videos);
 
@@ -111,12 +152,12 @@ class PlayblockTest extends TestCase
     /** @test */
     function calculate_playblock_duration_and_frames_from_sum_of_duration_and_frames_of_videos(){
 
-        factory(App\Video::class)->create([
+        factory(Video::class)->create([
             'duration'      => 105,
             'frames'        => 70,
             'category_id'   => 1
         ]);
-        factory(App\Video::class)->create([
+        factory(Video::class)->create([
             'duration'      => 80,
             'frames'        => 70,
             'category_id'   => 1
@@ -125,7 +166,7 @@ class PlayblockTest extends TestCase
 
         $videos = Video::all();
 
-        $playblock = factory(App\Playblock::class)->create(['playblock_type_id'=>1]);
+        $playblock = factory(Playblock::class)->create(['playblock_type_id'=>1]);
 
         $playblock->add($videos);
 
@@ -138,11 +179,11 @@ class PlayblockTest extends TestCase
     /** @test */
     function remove_video_from_playblock(){
 
-        $videos = factory(App\Video::class, 5)->create(['category_id'=>1]);
+        $videos = factory(Video::class, 5)->create(['category_id'=>1]);
 
         $videos_to_remove = Video::whereIn('id', [2, 3])->get();
 
-        $playblock = factory(App\Playblock::class)->create(['playblock_type_id'=>1]);
+        $playblock = factory(Playblock::class)->create(['playblock_type_id'=>1]);
 
         $playblock->add($videos);
 
@@ -154,17 +195,17 @@ class PlayblockTest extends TestCase
     /** @test */
     function calculate_playblock_duration_and_frames_at_video_remove_from_playblock(){
 
-        factory(App\Video::class)->create([
+        factory(Video::class)->create([
             'duration'      => 105,
             'frames'        => 70,
             'category_id'   => 1
         ]);
-        factory(App\Video::class)->create([
+        factory(Video::class)->create([
             'duration'      => 80,
             'frames'        => 70,
             'category_id'   => 1
         ]);
-        factory(App\Video::class)->create([
+        factory(Video::class)->create([
             'duration'      => 50,
             'frames'        => 10,
             'category_id'   => 1
@@ -173,7 +214,7 @@ class PlayblockTest extends TestCase
 
         $videos = Video::all();
 
-        $playblock = factory(App\Playblock::class)->create(['playblock_type_id'=>1]);
+        $playblock = factory(Playblock::class)->create(['playblock_type_id'=>1]);
 
         $playblock->add($videos);
 
@@ -189,17 +230,17 @@ class PlayblockTest extends TestCase
     /** @test */
     function add_video_to_playblock_with_maxDuration(){
 
-        factory(App\Video::class)->create([
+        factory(Video::class)->create([
             'duration'      => 105,
             'frames'        => 70,
             'category_id'   => 1
         ]);
-        factory(App\Video::class)->create([
+        factory(Video::class)->create([
             'duration'      => 80,
             'frames'        => 70,
             'category_id'   => 1
         ]);
-        factory(App\Video::class)->create([
+        factory(Video::class)->create([
             'duration'      => 50,
             'frames'        => 10,
             'category_id'   => 1
@@ -212,5 +253,36 @@ class PlayblockTest extends TestCase
         $playblock->add($videos_to_add, 120);
 
         $this->assertCount(1, $playblock->videos);
+    }
+
+    /** @test */
+    function should_add_videos_to_playblock_to_appropiate_to_maxDuration()
+    {
+
+        factory(Video::class)->create([
+            'duration' => 90,
+            'frames' => 70,
+            'category_id' => 1
+        ]);
+        factory(Video::class)->create([
+            'duration' => 80,
+            'frames' => 70,
+            'category_id' => 1
+        ]);
+        factory(Video::class)->create([
+            'duration' => 25,
+            'frames' => 40,
+            'category_id' => 1
+        ]);
+
+        $videos_to_add = Video::all();
+
+        $playblock = factory(Playblock::class)->create(['playblock_type_id' => 1]);
+
+        $playblock->add($videos_to_add, 120);
+
+        $this->assertCount(2, $playblock->videos);
+        $this->assertEquals(116, $playblock->duration);
+        $this->assertEquals(10, $playblock->frames);
     }
 }
