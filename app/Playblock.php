@@ -12,7 +12,7 @@ class Playblock extends Model
     protected $maxDuration;
     
     public function videos(){
-        return $this->belongsToMany(Video::class)->withPivot('id');
+        return $this->belongsToMany(Video::class, 'playblock_video', 'playblock_id')->withPivot('id');
     }
 
     public function playblockType(){

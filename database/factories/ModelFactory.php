@@ -62,3 +62,12 @@ $factory->define(App\Playblock::class, function () {
         'frames' => 0
     ];
 });
+
+
+$factory->define(App\PromoPlayblock::class, function(){
+    return [
+        'title'     => "test promo playblock",
+        'duration'  => 0,
+        'frames'    => 0
+    ];
+});
