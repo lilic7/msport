@@ -55,6 +55,15 @@ $factory->define(App\PlayblockType::class, function () {
     ];
 });
 
+$factory->define(App\PlayblockStructure::class, function () {
+    return [
+        'playblock_type_id' => 1,
+        'var_name' => 'bilaPromo',
+        'var_value' => 1,
+        'var_value_type' => App\Video::class
+    ];
+});
+
 $factory->define(App\Playblock::class, function () {
     return [
         'title' => 'promo',

@@ -6,6 +6,8 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Playblock;
 use App\Video;
 use App\Category;
+use App\PlayblockStructure;
+use App\PlayblockType;
 
 class PlayblockTest extends TestCase
 {
@@ -285,4 +287,36 @@ class PlayblockTest extends TestCase
         $this->assertEquals(116, $playblock->duration);
         $this->assertEquals(10, $playblock->frames);
     }
+
+    /** @test */
+//    function create_playblock_according_to_its_type_structure(){
+//
+//        //create video to insert into playblock
+//        $video_id = factory(Video::class)->create([
+//            'title' => 'Bila Promo',
+//            'category_id' => 1
+//        ]);
+//        factory(Video::class, 3)->create([ 'category_id' => 1 ]);
+//
+//        // create playblock_type
+//        $promo_type_id = factory(PlayblockType::class)->create()->id;
+//
+//        $video = Video::where('id', $video_id)->get();
+//
+//        // create structure for this type
+//        $structure_params = factory(PlayblockStructure::class)->create([
+//            'playblock_type_id' => $promo_type_id,
+//            'var_value' => $video_id
+//        ]);
+//
+//        // generate playblock of type above
+//        $playblock = factory(Playblock::class)->create([
+//            'playblock_type_id' => $promo_type_id
+//        ]);
+//
+//        // check if it conforms to structure
+//        $this->assertCount(1, $playblock->videos);
+//
+//
+//    }
 }

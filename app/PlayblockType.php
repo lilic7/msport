@@ -9,6 +9,16 @@ class PlayblockType extends Model
     protected $fillable = ['title'];
 
     public function playblocks(){
-        return $this->hasMany('App\Playblock');
+        return $this->hasMany(Playblock::class);
+    }
+
+    public function structureElements(){
+        return $this->hasOne(PlayblockStructure::class);
+    }
+    
+    public function createElements($data){
+        foreach ($data as $element){
+
+        }
     }
 }

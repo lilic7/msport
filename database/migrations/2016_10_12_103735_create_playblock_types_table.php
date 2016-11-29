@@ -16,6 +16,7 @@ class CreatePlayblockTypesTable extends Migration
         Schema::create('playblock_types', function (Blueprint $table) {
             $table->increments('id')->unsigned();
             $table->string('title')->unique()->index();
+            $table->text('structure')->nullable();
             $table->timestamps();
         });
     }

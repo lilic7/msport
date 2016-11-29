@@ -23,30 +23,4 @@ class PromoPlayblockTest extends TestCase
         
         $this->assertEquals('promo', $playblock->playblockType->title);
     }
-
-    /** @test */
-    function add_promo_to_playblock(){
-
-        $promo_category_id = factory(Category::class)->create([
-            'title' => 'promo'
-        ])->id;
-
-        factory(Video::class, 2)->create(['category_id'=>$promo_category_id]);
-
-        factory(Video::class, 5)->create(['category_id'=>10]);
-
-        $videos_to_add = Video::whereIn('id', [2, 3])->get();
-
-        $promo_type_playblock_id = factory(PlayblockType::class)->create([
-            'title' => 'promo'
-        ])->id;
-
-        $playblock = factory(PromoPlayblock::class)->create([
-            'playblock_type_id' => $promo_type_playblock_id
-        ]);
-
-        $playblock->add($videos_to_add);
-
-        $this->assertCount(1, $playblock->videos);
-    }
 }

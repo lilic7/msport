@@ -37,7 +37,9 @@ class Playblock extends Model
 
         $videos->each(function(Video $video){
 
-            if ($this->maxDuration && ($this->duration + $video->duration > $this->maxDuration)){
+            $totalDurationAfterSum = $this->duration + $video->duration;
+
+            if ($this->maxDuration && ($totalDurationAfterSum > $this->maxDuration)){
                 return;
             }
 
@@ -78,4 +80,10 @@ class Playblock extends Model
 
         });
     }
+
+    public function scopeOfType($query, PlayblockType $type){
+        return $query->where('playblock_type_id', $type->id);
+    }
+    
+    
 }
